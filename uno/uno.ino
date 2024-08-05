@@ -20,9 +20,16 @@ void loop() {
 
   if (currentTime - lastTime >= interval) {
     detachInterrupt(digitalPinToInterrupt(sensor)); // 임시로 인터럽트 해제
+    
     float rpm = (pulseCount / 20.0) * 60.0; // 센서에 따라 변경 필요
+    float kmh = rpm * 0.0126;
+
+    // print data
     Serial.print("RPM: ");
     Serial.println(rpm);
+    Serial.print(kmh);
+    Serial.println(" km/h");
+
     pulseCount = 0; // 카운트 초기화
     lastTime = currentTime;
     attachInterrupt(digitalPinToInterrupt(sensor), countPulse, RISING); // 인터럽트 재설정
