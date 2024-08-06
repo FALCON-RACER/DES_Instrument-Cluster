@@ -140,6 +140,6 @@ compile_commands.json
 .ionide
 
 # QT
-./instrument_cluster/build/
+.instrument_cluster/build/*
 
 # End of https://www.toptal.com/developers/gitignore/api/macos,visualstudiocode,qt,qtcreator
