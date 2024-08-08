@@ -1,41 +1,42 @@
-#define sensor 2
+// for receiver
 
-
-volatile int pulseCount = 0;
-unsigned long lastTime = 0;
-unsigned long interval = 500; // 1초 간격으로 계산
-
-
+#include <SPI.h>
+#include <mcp2515_can.h>
+const int SPI_CS_PIN = 9;
+mcp2515_can CAN_RECEIVE(SPI_CS_PIN); // Set CS pin
 void setup() {
   Serial.begin(9600);
-  pinMode(sensor, INPUT_PULLUP);
-  attachInterrupt(digitalPinToInterrupt(sensor), countPulse, RISING);
-
-
-  // attachInterrupt(0,countPulse,RISING);
+  while (CAN_OK != CAN_RECEIVE.begin(CAN_500KBPS)) { // init can bus : baudrate = 500k
+    Serial.println("CAN_RECEIVE init fail, retry...");
+    delay(100);
+  }
+  Serial.println("CAN_RECEIVE init ok!");
 }
+
 
 void loop() {
-  unsigned long currentTime = millis();
+  unsigned char len = 0;
+  unsigned char buf[8];
 
-  if (currentTime - lastTime >= interval) {
-    detachInterrupt(digitalPinToInterrupt(sensor)); // 임시로 인터럽트 해제
-    
-    float rpm = (pulseCount / 20.0) * 60.0; // 센서에 따라 변경 필요
-    float kmh = rpm * 0.0126;
+  if (CAN_MSGAVAIL == CAN_RECEIVE.checkReceive()) { // Check for received data
+    CAN_RECEIVE.readMsgBuf(&len, buf); // Read data: len = data length, buf = data byte(s)
+    // Print message ID and length
+    Serial.print("ID: ");
+    Serial.print(CAN_RECEIVE.getCanId(), HEX);
+    Serial.print("  Data Length: ");
+    Serial.println(len);
+    // Print each byte of the data
+    // Serial.print("  Frame: ");
+    // for (int i = 0; i < len; i++) {
+    //   Serial.print(buf[i], HEX);
+    //   Serial.print("\t");
+    // }
+    float receivedSpeed;
+    memcpy(&receivedSpeed, buf, sizeof(receivedSpeed));
 
-    // print data
-    Serial.print("RPM: ");
-    Serial.println(rpm);
-    Serial.print(kmh);
-    Serial.println(" km/h");
+    Serial.println(receivedSpeed);
 
-    pulseCount = 0; // 카운트 초기화
-    lastTime = currentTime;
-    attachInterrupt(digitalPinToInterrupt(sensor), countPulse, RISING); // 인터럽트 재설정
+    Serial.println();
+    Serial.println("-------------------------------");
   }
-}
-
-void countPulse() {
-  pulseCount++;
 }
