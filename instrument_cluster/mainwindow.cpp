@@ -3,6 +3,7 @@
 #include "canreceiver.h"
 
 #include <QDebug>
+#include <QThread>
 
 MainWindow::MainWindow(QWidget *parent)
     : QMainWindow(parent)
@@ -10,22 +11,31 @@ MainWindow::MainWindow(QWidget *parent)
 {
     ui->setupUi(this);
 
-    ui->data_label->setText("whhhyyyyy");
-    // qDebug() <<
 
-    CANReceiver canReceiver(ui->data_label);
+    // CANReceiver를 별도의 스레드에서 실행하도록 설정
+    QThread *canThread = new QThread;
 
-    // Connect CANReceiver signals to MainWindow slots)
-    QObject::connect(&canReceiver, &CANReceiver::newMessageReceived, this, &MainWindow::updateLabel);
+    // CANReceiver *canReceiver = new CANReceiver();
+    CANReceiver *canReceiver = new CANReceiver(this);
 
-    // Initialize CANReceiver and connect to CAN bus
-    QString a = canReceiver.connectToBus("can0");
-    if (a != "")
-    {
-        // ui->data_label->setText("Failed to connect to CAN bus.");
-        ui->data_label->setText(a);
+    canReceiver->moveToThread(canThread);
 
-    }
+    // CANReceiver의 시그널과 메인 윈도우 슬롯 연결
+    QObject::connect(canReceiver, &CANReceiver::newMessageReceived, this, &MainWindow::updateLabel);
+
+
+    // 스레드 시작 시 CAN 버스에 연결
+    QObject::connect(canThread, &QThread::started, canReceiver, [canReceiver]() {
+        canReceiver->connectToBus("can0");
+    });
+
+
+    // 스레드가 종료되면 CANReceiver 객체 삭제
+    QObject::connect(canThread, &QThread::finished, canReceiver, &QObject::deleteLater);
+    QObject::connect(canThread, &QThread::finished, canThread, &QObject::deleteLater);
+
+    // 스레드 시작
+    canThread->start();
 }
 
 MainWindow::~MainWindow()
@@ -35,8 +45,14 @@ MainWindow::~MainWindow()
 
 void MainWindow::updateLabel(const QCanBusFrame &frame)
 {
-    QString message = QString("ID: %1 Data: %2")
-                          .arg(frame.frameId(), 0, 16)
-                          .arg(frame.payload().toHex().constData());
-    ui->data_label->setText(message);  // Update the label with the received message
+    float data;
+
+    memcpy(&data, frame.payload(), sizeof(data));
+    qDebug() << "data : " << data;
+
+    ui->data_label->setText(QString::number(data));
+
+    // QString message = QString("ID: %1 Data: %2")
+    //                       .arg(frame.frameId(), 0, 16)
+    //                       .arg(frame.payload().toHex().constData());
 }
