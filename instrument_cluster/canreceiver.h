@@ -15,7 +15,7 @@ public:
     explicit CANReceiver(QObject *parent = nullptr);
     ~CANReceiver();
 
-    QString connectToBus(const QString &interfaceName);
+    bool connectToBus(const QString &interfaceName);
     void disconnectFromBus();
 
 signals:
