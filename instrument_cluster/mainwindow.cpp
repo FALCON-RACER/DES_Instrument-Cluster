@@ -64,15 +64,14 @@ MainWindow::~MainWindow()
 void MainWindow::updateLabel(const QCanBusFrame &frame)
 {
     float rpm;
-
     memcpy(&rpm, frame.payload(), sizeof(rpm));
-    qDebug() << "rpm : " << rpm;
 
     double speed = calculateSpeed(rpm);
 
-    ui->data_label->setText(QString::number(speed));
+    gauge->startAnimation(speed, 280);
 
-    gauge->startAnimation(speed, 1000);
+    qDebug() << "rpm : " << rpm;
+    qDebug() << "speed : " << speed;
 
     // QString message = QString("ID: %1 Data: %2")
     //                       .arg(frame.frameId(), 0, 16)

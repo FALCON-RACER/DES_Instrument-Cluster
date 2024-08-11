@@ -6,7 +6,7 @@
 #include <cmath>
 
 CircularGauge::CircularGauge(QWidget *parent)
-    : QWidget(parent), m_value(0), m_min(0), m_max(100)
+    : QWidget(parent), m_value(0), m_min(0), m_max(260)
 {
     setMinimumSize(200, 200);  // 위젯의 최소 크기 설정
 
@@ -33,7 +33,7 @@ void CircularGauge::setRange(int min, int max)
     m_max = max;
 }
 
-void CircularGauge::startAnimation(int targetValue, int duration)
+void CircularGauge::startAnimation(double targetValue, int duration)
 {
     m_animation->stop();  // 기존 애니메이션 중지
     m_animation->setDuration(duration);  // 애니메이션 지속 시간 설정

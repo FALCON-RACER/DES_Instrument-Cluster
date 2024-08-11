@@ -15,7 +15,7 @@ public:
     int value() const { return m_value; }
     void setValue(int value);                // Set the gauge's value
     void setRange(int min, int max);         // Set the gauge's minimum and maximum values
-    void startAnimation(int targetValue, int duration = 1000);  // Start animation to a target value
+    void startAnimation(double targetValue, int duration = 1000);  // Start animation to a target value
     void paintPen(QPainter *painter);
 
 protected:
