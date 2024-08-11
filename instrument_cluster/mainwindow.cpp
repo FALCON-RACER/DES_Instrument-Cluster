@@ -26,6 +26,7 @@ MainWindow::MainWindow(QWidget *parent)
     gauge->setRange(0, 260);  // 게이지의 범위를 설정
     gauge->setValue(0);       // 초기 값 설정
 
+    showFullScreen();
 
 
     // CANReceiver를 별도의 스레드에서 실행하도록 설정
