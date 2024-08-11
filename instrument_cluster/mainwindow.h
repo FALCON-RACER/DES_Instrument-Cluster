@@ -17,6 +17,7 @@ class MainWindow : public QMainWindow
 public:
     MainWindow(QWidget *parent = nullptr);
     ~MainWindow();
+    double calculateSpeed(double rpm);
 
 public slots:
     void updateLabel(const QCanBusFrame &frame);

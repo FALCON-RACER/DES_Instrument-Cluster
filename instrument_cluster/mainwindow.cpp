@@ -4,6 +4,7 @@
 
 #include <QDebug>
 #include <QThread>
+#include <cmath>
 
 MainWindow::MainWindow(QWidget *parent)
     : QMainWindow(parent)
@@ -45,14 +46,27 @@ MainWindow::~MainWindow()
 
 void MainWindow::updateLabel(const QCanBusFrame &frame)
 {
-    float data;
+    float rpm;
 
-    memcpy(&data, frame.payload(), sizeof(data));
-    qDebug() << "data : " << data;
+    memcpy(&rpm, frame.payload(), sizeof(rpm));
+    qDebug() << "rpm : " << rpm;
 
-    ui->data_label->setText(QString::number(data));
+    double speed = calculateSpeed(rpm);
+
+    ui->data_label->setText(QString::number(speed));
 
     // QString message = QString("ID: %1 Data: %2")
     //                       .arg(frame.frameId(), 0, 16)
     //                       .arg(frame.payload().toHex().constData());
+}
+
+double MainWindow::calculateSpeed(double rpm) {
+
+    const double radius = 6.7;
+    const double PI = M_PI;
+
+    // cm/s
+    double speed = (rpm / 60) * 2 * PI * radius;
+
+    return speed;
 }
