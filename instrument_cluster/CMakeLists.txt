@@ -14,6 +14,8 @@ set(PROJECT_SOURCES
         mainwindow.ui
         canreceiver.h
         canreceiver.cpp
+        circulargauge.h
+        circulargauge.cpp
         utils.h
         utils.cpp
 )

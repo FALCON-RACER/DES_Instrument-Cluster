@@ -1,8 +1,9 @@
-#include "CircularGauge.h"
+#include "circulargauge.h"
 #include <QPainter>
 #include <QConicalGradient>
 #include <QVBoxLayout>
 #include <QPushButton>
+#include <cmath>
 
 CircularGauge::CircularGauge(QWidget *parent)
     : QWidget(parent), m_value(0), m_min(0), m_max(100)

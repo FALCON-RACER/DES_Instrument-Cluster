@@ -5,6 +5,7 @@
 #include <QDebug>
 #include <QThread>
 #include <QVBoxLayout>
+#include <cmath>
 
 MainWindow::MainWindow(QWidget *parent)
     : QMainWindow(parent)

@@ -3,7 +3,7 @@
 
 #include <QMainWindow>
 #include <QCanBusFrame>
-#include "CircularGauge.h"
+#include "circulargauge.h"
 
 QT_BEGIN_NAMESPACE
 namespace Ui { class MainWindow; }
@@ -15,7 +15,7 @@ class MainWindow : public QMainWindow
     Q_OBJECT
 
 public:
-    MainWindow(QWidget *parent = nullptr);
+    explicit MainWindow(QWidget *parent = nullptr);
     ~MainWindow();
 
     double calculateSpeed(double rpm);
@@ -25,7 +25,7 @@ public slots:
 
 private:
     Ui::MainWindow *ui;
-    CircularGauge *gauge;  // CircularGauge 위젯 포인터 추가
+    CircularGauge *gauge;
 };
 
 #endif // MAINWINDOW_H
