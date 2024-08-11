@@ -23,13 +23,11 @@ MainWindow::MainWindow(QWidget *parent)
     QVBoxLayout *layout = new QVBoxLayout(centralWidget);
     layout->addWidget(gauge);
 
-    // gauge 초기 설정
-    gauge->setRange(0, 260);  // 게이지의 범위를 설정
-    gauge->setValue(0);       // 초기 값 설정
 
     showFullScreen();
 
 
+    // set CAN Bus Code
     // CANReceiver를 별도의 스레드에서 실행하도록 설정
     QThread *canThread = new QThread;
 
