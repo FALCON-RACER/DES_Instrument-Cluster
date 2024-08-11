@@ -23,6 +23,7 @@ if(${QT_VERSION_MAJOR} GREATER_EQUAL 6)
         ${PROJECT_SOURCES}
         canreceiver.h canreceiver.cpp
         utils.h utils.cpp
+        circulargauge.h circulargauge.cpp
     )
 # Define target properties for Android with Qt 6 as:
 #    set_property(TARGET InstrumentCluster APPEND PROPERTY QT_ANDROID_PACKAGE_SOURCE_DIR
