@@ -9,7 +9,7 @@ mcp2515_can CAN(SPI_CS_PIN);  // Set CS pin
 volatile unsigned int pulseCount = 0;
 unsigned long currentMillis = 0;
 unsigned long lastMillis = 0;
-
+const long interval = 100;
 unsigned char data[8];
 
 void setup() {
@@ -30,7 +30,7 @@ void loop() {
   
   currentMillis = millis();
 
-  if (currentMillis - lastMillis >= 1000) {
+  if (currentMillis - lastMillis >= interval) {
 
     lastMillis = currentMillis;
 
@@ -50,9 +50,12 @@ void countPulses() {
 }
 
 float getRPM() {
-  int wheelHoles = 20;
-  int rotations = pulseCount / wheelHoles;    // 회전 수 계산 (20개 구멍)
-  float rpm = rotations * 60;                  // 1분당 펄스 수
+  int wheelHoles = 20;                  // Number of holes in the wheel
+  float seconds = interval / 1000.0;    // Convert interval from milliseconds to seconds
+
+  float rotations = (float)pulseCount / wheelHoles; // Calculate number of rotations
+  float rotationsPerSecond = rotations / seconds;   // Calculate rotations per second
+  float rpm = rotationsPerSecond * 60;              // Convert to RPM
 
   return rpm;
 }
