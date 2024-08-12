@@ -16,15 +16,12 @@ set(PROJECT_SOURCES
         canreceiver.cpp
         circulargauge.h
         circulargauge.cpp
-        utils.h
-        utils.cpp
 )
 if(${QT_VERSION_MAJOR} GREATER_EQUAL 6)
     qt_add_executable(InstrumentCluster
         MANUAL_FINALIZATION
         ${PROJECT_SOURCES}
         canreceiver.h canreceiver.cpp
-        utils.h utils.cpp
         circulargauge.h circulargauge.cpp
     )
 # Define target properties for Android with Qt 6 as:
