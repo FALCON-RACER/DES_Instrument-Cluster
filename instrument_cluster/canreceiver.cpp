@@ -1,16 +1,14 @@
 #include "canreceiver.h"
 #include <QDebug>
 
-CANReceiver::CANReceiver(QObject *parent) : QObject(parent), canDevice(nullptr)
-{
-}
+CANReceiver::CANReceiver(QObject *parent) : QObject(parent), canDevice(nullptr) {}
 
 CANReceiver::~CANReceiver()
 {
     disconnectFromBus();
 }
 
-// 주어진 인터페이스 이름으로 CAN 버스 장치에 연결
+// Connect to CAN Bus using specified interface name
 bool CANReceiver::connectToBus(const QString &interfaceName)
 {
     if (canDevice)
@@ -38,12 +36,12 @@ bool CANReceiver::connectToBus(const QString &interfaceName)
     qDebug() << "Frames available: " << canDevice->framesAvailable();
     qDebug() << "CAN device error: " << canDevice->errorString();
 
-    bool a = connect(canDevice, &QCanBusDevice::framesReceived, this, &CANReceiver::handleNewData);
+    connect(canDevice, &QCanBusDevice::framesReceived, this, &CANReceiver::handleNewData);
 
     return true;
 }
 
-// CAN 버스 장치와의 연결을 해제
+// Disconnect with CAN bus device
 void CANReceiver::disconnectFromBus()
 {
     if (canDevice)
@@ -54,7 +52,7 @@ void CANReceiver::disconnectFromBus()
     }
 }
 
-// 새로운 CAN 메시지가 수신되면 newMessageReceived 신호를 방출
+// emit signal if new CAN message arrived
 void CANReceiver::handleNewData()
 {
     while (canDevice->framesAvailable())

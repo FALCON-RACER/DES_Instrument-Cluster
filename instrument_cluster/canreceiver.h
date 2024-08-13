@@ -2,7 +2,6 @@
 #define CANRECEIVER_H
 
 #include <QObject>
-// #include <QtNetwork/QUdpSocket>
 #include <QCanBus>
 #include <QCanBusDevice>
 #include <QCanBusFrame>

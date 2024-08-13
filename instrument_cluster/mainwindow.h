@@ -3,7 +3,8 @@
 
 #include <QMainWindow>
 #include <QCanBusFrame>
-
+#include "circulargauge.h"
+#include "emafilter.h"
 
 QT_BEGIN_NAMESPACE
 namespace Ui { class MainWindow; }
@@ -15,14 +16,18 @@ class MainWindow : public QMainWindow
     Q_OBJECT
 
 public:
-    MainWindow(QWidget *parent = nullptr);
+    explicit MainWindow(QWidget *parent = nullptr);
     ~MainWindow();
 
+    double calculateSpeed(double rpm);
+
 public slots:
-    void updateLabel(const QCanBusFrame &frame);
+    void updateAnimation(const QCanBusFrame &frame);
 
 private:
     Ui::MainWindow *ui;
+    CircularGauge *gauge;
+    EmaFilter *emaFilter;
 };
 
 #endif // MAINWINDOW_H
