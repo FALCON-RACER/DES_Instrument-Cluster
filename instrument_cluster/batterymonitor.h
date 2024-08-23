@@ -10,7 +10,7 @@ class BatteryMonitor : public QObject
 {
     Q_OBJECT
 public:
-    explicit BatteryMonitor(const QString& i2cDevice, uint8_t address, QLabel *label, QObject *parent = nullptr);
+    explicit BatteryMonitor(const QString& i2cDevice, uint8_t address, QObject *parent = nullptr);
     ~BatteryMonitor();
 
 public slots:
@@ -19,7 +19,6 @@ public slots:
 private:
     INA219 *ina219;
     QTimer *timer;
-    QLabel *voltageLabel;  // QLabel 포인터
 };
 
 

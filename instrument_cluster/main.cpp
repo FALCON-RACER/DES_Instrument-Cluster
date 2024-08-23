@@ -1,5 +1,7 @@
 #include "mainwindow.h"
+#include "i2cexception.h"
 
+#include "batterymonitor.h"
 #include <QApplication>
 #include <QShortcut>
 #include <QKeySequence>

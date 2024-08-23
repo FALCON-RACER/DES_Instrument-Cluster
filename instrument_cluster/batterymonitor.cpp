@@ -1,8 +1,8 @@
 #include "batterymonitor.h"
 #include <QDebug>
 
-BatteryMonitor::BatteryMonitor(const QString& i2cDevice, uint8_t address, QLabel *label, QObject *parent)
-    : QObject(parent), ina219(new INA219(i2cDevice.toStdString().c_str(), address)), voltageLabel(label)
+BatteryMonitor::BatteryMonitor(const QString& i2cDevice, uint8_t address, QObject *parent)
+    : QObject(parent), ina219(new INA219(i2cDevice.toStdString().c_str(), address))
 {
     // QTimer 객체 생성
     timer = new QTimer(this);

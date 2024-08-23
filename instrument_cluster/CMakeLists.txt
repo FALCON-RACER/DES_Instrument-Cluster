@@ -18,7 +18,11 @@ set(PROJECT_SOURCES
         circulargauge.cpp
         emafilter.h
         emafilter.cpp
+        ina219.h
+        ina219.cpp
         i2cexception.h
+        batterymonitor.h
+        batterymonitor.cpp
 )
 if(${QT_VERSION_MAJOR} GREATER_EQUAL 6)
     qt_add_executable(InstrumentCluster
