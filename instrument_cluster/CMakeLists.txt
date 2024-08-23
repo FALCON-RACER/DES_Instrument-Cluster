@@ -31,7 +31,9 @@ if(${QT_VERSION_MAJOR} GREATER_EQUAL 6)
         canreceiver.h canreceiver.cpp
         circulargauge.h circulargauge.cpp
         emafilter.h emafilter.cpp
+        ina219.h ina219.cpp
         i2cexception.h
+        batterymonitor.h batterymonitor.cpp
     )
 # Define target properties for Android with Qt 6 as:
 #    set_property(TARGET InstrumentCluster APPEND PROPERTY QT_ANDROID_PACKAGE_SOURCE_DIR
@@ -50,7 +52,8 @@ else()
         )
     endif()
 endif()
-target_link_libraries(InstrumentCluster PRIVATE Qt${QT_VERSION_MAJOR}::Widgets Qt${QT_VERSION_MAJOR}::SerialBus)
+target_link_libraries(InstrumentCluster PRIVATE Qt${QT_VERSION_MAJOR}::Widgets Qt${QT_VERSION_MAJOR}::SerialBus i2c)
+
 # Qt for iOS sets MACOSX_BUNDLE_GUI_IDENTIFIER automatically since Qt 6.1.
 # If you are developing for iOS or macOS you should consider setting an
 # explicit, fixed bundle identifier manually though.
