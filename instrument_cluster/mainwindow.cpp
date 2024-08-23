@@ -20,9 +20,30 @@ MainWindow::MainWindow(QWidget *parent)
     QWidget *centralWidget = new QWidget(this);
     setCentralWidget(centralWidget);
 
-    // Create a layout and add the gauge to it
-    QVBoxLayout *layout = new QVBoxLayout(centralWidget);
-    layout->addWidget(gauge);
+    // // Create a layout and add the gauge to it
+    // QVBoxLayout *layout = new QVBoxLayout(centralWidget);
+    // layout->addWidget(gauge);
+
+    QHBoxLayout *layout = new QHBoxLayout(centralWidget);
+
+    // 게이지를 중앙에 위치시키기 위한 스페이서 추가
+    // layout->addSpacerItem(new QSpacerItem(0, 0, QSizePolicy::Expanding, QSizePolicy::Minimum));
+    layout->addWidget(gauge);  // 중앙에 게이지 추가
+    // layout->addSpacerItem(new QSpacerItem(0, 0, QSizePolicy::Expanding, QSizePolicy::Minimum));
+
+    // 우측에 배터리 위젯을 위한 수직 레이아웃 생성
+    QVBoxLayout *rightLayout = new QVBoxLayout;
+    ui->Battery->setValue(40);
+    ui->Battery->setMaximumWidth(200);
+    ui->Battery->setAlignment(Qt::AlignTop | Qt::AlignRight);
+    rightLayout->addWidget(ui->Battery);
+
+    // 아래쪽 빈 공간을 차지하게 하는 스페이서 추가
+    rightLayout->addSpacerItem(new QSpacerItem(0, 0, QSizePolicy::Minimum, QSizePolicy::Expanding));
+
+    // 수직 레이아웃을 수평 레이아웃에 추가
+    layout->addLayout(rightLayout);
+
 
     setFixedSize(1280, 400);
     setStyleSheet("background-color:black");
