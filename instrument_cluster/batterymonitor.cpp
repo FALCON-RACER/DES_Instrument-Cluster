@@ -24,9 +24,15 @@ BatteryMonitor::~BatteryMonitor() {
 void BatteryMonitor::updateBatteryVoltage() {
 
     float voltage = ina219->getBatteryVoltage();
-    float voltagePercent = (voltage - lowBatteryVoltage) / 0.036;
+    float voltagePercent = (voltage - lowBatteryVoltage) / 0.029;
 
-    qDebug() << "Battery Voltage:" << voltage << "V";
+    if (voltagePercent >= 100)
+        voltagePercent = 100;
+    else if (voltagePercent <= 0)
+        voltagePercent = 0;
+
 
     progressBar->setValue(voltagePercent);
+
+    qDebug() << "Battery Voltage:" << voltage << "V";
 }
