@@ -1,10 +1,10 @@
 #ifndef MAINWINDOW_H
 #define MAINWINDOW_H
 
-#include <QMainWindow>
-#include <QCanBusFrame>
 #include "circulargauge.h"
 #include "emafilter.h"
+#include <QMainWindow>
+#include <QCanBusFrame>
 #include <QProgressBar>
 
 QT_BEGIN_NAMESPACE
@@ -31,6 +31,10 @@ private:
     Ui::MainWindow *ui;
     CircularGauge *gauge;
     EmaFilter *emaFilter;
+
+    void setWidgets();
+    void setScreenOptions();
+    void setCanBus();
 };
 
-#endif // MAINWINDOW_H
+#endif

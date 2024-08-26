@@ -19,24 +19,52 @@ MainWindow::MainWindow(QWidget *parent)
     ui->setupUi(this);
     battery = ui->battery;
 
+    setWidgets();
+    setScreenOptions();
+    setCanBus();
+}
+
+MainWindow::~MainWindow()
+{
+    delete ui;
+}
+
+void MainWindow::updateAnimation(const QCanBusFrame &frame)
+{
+    float rpm;
+    memcpy(&rpm, frame.payload(), sizeof(rpm));
+
+    double speed = calculateSpeed(rpm);
+
+    gauge->startAnimation(speed, 280);
+
+    // QString message = QString("ID: %1 Data: %2")
+    //                       .arg(frame.frameId(), 0, 16)
+    //                       .arg(frame.payload().toHex().constData());
+}
+
+double MainWindow::calculateSpeed(double rpm) {
+
+    const double radius = 6.7 / 2;
+    const double PI = M_PI;
+
+    double speed = (rpm / 60) * PI * radius * 2;    // cm/s
+
+    return emaFilter->Run(speed);
+}
+
+void MainWindow::setWidgets() {
+
     // Create a central widget
     QWidget *centralWidget = new QWidget(this);
     setCentralWidget(centralWidget);
 
-    // // Create a layout and add the gauge to it
-    // QVBoxLayout *layout = new QVBoxLayout(centralWidget);
-    // layout->addWidget(gauge);
-
     QHBoxLayout *layout = new QHBoxLayout(centralWidget);
 
-    // 게이지를 중앙에 위치시키기 위한 스페이서 추가
-    // layout->addSpacerItem(new QSpacerItem(0, 0, QSizePolicy::Expanding, QSizePolicy::Minimum));
     layout->addWidget(gauge);  // 중앙에 게이지 추가
-    // layout->addSpacerItem(new QSpacerItem(0, 0, QSizePolicy::Expanding, QSizePolicy::Minimum));
 
     // 우측에 배터리 위젯을 위한 수직 레이아웃 생성
     QVBoxLayout *rightLayout = new QVBoxLayout;
-    // ui->Battery->setValue(40);
 
     ui->battery->setMaximumWidth(200);
     ui->battery->setAlignment(Qt::AlignTop | Qt::AlignRight);
@@ -47,14 +75,16 @@ MainWindow::MainWindow(QWidget *parent)
 
     // 수직 레이아웃을 수평 레이아웃에 추가
     layout->addLayout(rightLayout);
+}
 
-
+void MainWindow::setScreenOptions() {
     setFixedSize(1280, 400);
     setStyleSheet("background-color:black");
     showFullScreen();
+}
 
+void MainWindow::setCanBus() {
 
-    // Set CAN Bus
     // Start CANReceiver another thread
     QThread *canThread = new QThread;
     CANReceiver *canReceiver = new CANReceiver(this);
@@ -76,38 +106,4 @@ MainWindow::MainWindow(QWidget *parent)
     QObject::connect(canThread, &QThread::finished, canThread, &QObject::deleteLater);
 
     canThread->start();
-}
-
-MainWindow::~MainWindow()
-{
-    delete ui;
-}
-
-void MainWindow::updateAnimation(const QCanBusFrame &frame)
-{
-    float rpm;
-    memcpy(&rpm, frame.payload(), sizeof(rpm));
-
-    double speed = calculateSpeed(rpm);
-
-    gauge->startAnimation(speed, 280);
-
-    qDebug() << "rpm : " << rpm;
-    qDebug() << "speed : " << speed;
-
-    // QString message = QString("ID: %1 Data: %2")
-    //                       .arg(frame.frameId(), 0, 16)
-    //                       .arg(frame.payload().toHex().constData());
-}
-
-double MainWindow::calculateSpeed(double rpm) {
-
-    const double radius = 6.7;
-    const double PI = M_PI;
-
-    // cm/s
-    double speed = (rpm / 60) * PI * radius;
-
-    return emaFilter->Run(speed);
-    // return speed;
 }
