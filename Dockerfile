@@ -20,6 +20,8 @@ RUN apt-get update && apt-get install -y \
     libglu1-mesa-dev \
     qtmultimedia5-dev \
     qtbase5-private-dev \
+    i2c-tools \
+    libi2c-dev \
     cmake \
     && apt-get clean \
     && rm -rf /var/lib/apt/lists/*

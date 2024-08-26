@@ -1,10 +1,11 @@
 #ifndef MAINWINDOW_H
 #define MAINWINDOW_H
 
-#include <QMainWindow>
-#include <QCanBusFrame>
 #include "circulargauge.h"
 #include "emafilter.h"
+#include <QMainWindow>
+#include <QCanBusFrame>
+#include <QProgressBar>
 
 QT_BEGIN_NAMESPACE
 namespace Ui { class MainWindow; }
@@ -16,6 +17,8 @@ class MainWindow : public QMainWindow
     Q_OBJECT
 
 public:
+    QProgressBar *battery;
+
     explicit MainWindow(QWidget *parent = nullptr);
     ~MainWindow();
 
@@ -28,6 +31,10 @@ private:
     Ui::MainWindow *ui;
     CircularGauge *gauge;
     EmaFilter *emaFilter;
+
+    void setWidgets();
+    void setScreenOptions();
+    void setCanBus(const QString &interfaceName);
 };
 
-#endif // MAINWINDOW_H
+#endif

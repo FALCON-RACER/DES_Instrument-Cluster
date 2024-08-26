@@ -4,6 +4,11 @@
 #include <QWidget>
 #include <QPropertyAnimation>
 
+/**
+ * @brief The CircularGauge class
+ *
+ * For the drawing speed meter
+ */
 class CircularGauge : public QWidget
 {
     Q_OBJECT
@@ -15,7 +20,7 @@ public:
     int value() const { return m_value; }
     void setValue(int value);                // Set the gauge's value
     void setRange(int min, int max);         // Set the gauge's minimum and maximum values
-    void startAnimation(double targetValue, int duration = 1000);  // Start animation to a target value
+    void startAnimation(int targetValue, int duration = 1000);  // Start animation to a target value
     void paintPen(QPainter *painter);
 
 protected:
@@ -26,6 +31,11 @@ private:
     int m_min;    // Minimum gauge value
     int m_max;    // Maximum gauge value
     QPropertyAnimation *m_animation;  // Animation for smooth value transition
+
+    void drawSpeedGuage(QPainter &painter, QRectF &rect);
+    void printSpeed(QPainter &painter, QRectF &rect);
+    void drawBigScaleAndNumber(QPainter &painter, int radius);
+    void drawSmallScale(QPainter &painter, int radius);
 };
 
-#endif // CIRCULARGAUGE_H
+#endif
