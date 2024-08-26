@@ -1,4 +1,5 @@
 #include "ina219.h"
+#include <QDebug>
 
 INA219::INA219(const char *filename, int address) : _address(address)  {
 
@@ -94,7 +95,14 @@ float INA219::getShuntVoltage() {
 
 float INA219::getBatteryVoltage() {
 
-    return getBusVoltage() + getShuntVoltage();
+    float busVoltage = getBusVoltage();
+    float shuntVoltage = getShuntVoltage();
+
+    qDebug() << "Bus Voltage:" << busVoltage << "V";
+    qDebug() << "Shunt Voltage:" << shuntVoltage << "V";
+
+
+    return busVoltage + shuntVoltage;
 }
 
 // int INA219::getCurrent() {
