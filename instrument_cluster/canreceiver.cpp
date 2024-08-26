@@ -21,6 +21,7 @@ void CANReceiver::connectToBus(const QString &interfaceName)
         throw CanBusException("Already connected to CAN bus. " + canDevice->errorString().toStdString());
 
     canDevice = QCanBus::instance()->createDevice("socketcan", interfaceName);
+
     if (!canDevice)
         throw CanBusException("Failed to create CAN device for interface:" + interfaceName.toStdString()
                                   + "\n" + canDevice->errorString().toStdString());

@@ -3,8 +3,8 @@
 
 #include <QObject>
 #include <QTimer>
-#include "ina219.h" // INA219 클래스의 헤더 파일
 #include <QProgressBar>
+#include "ina219.h"
 
 class BatteryMonitor : public QObject
 {

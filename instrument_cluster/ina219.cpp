@@ -49,7 +49,6 @@ void INA219::writeRegister(uint8_t registerNumber, uint16_t value)
     uint8_t buf[3] = {0};
     buf[0] = registerNumber;
     buf[1] = value >> 8;
-    // buf[1] = (calValue >> 8) & 0xFF;
     buf[2] = value & 0xff;
 
     if(write(_file, buf, 3) != 3){
@@ -106,14 +105,4 @@ float INA219::getBatteryVoltage() {
     return busVoltage + shuntVoltage;
 }
 
-// int INA219::getCurrent() {
-// 전류 읽기 (Shunt 전압을 이용해 계산)
-// float current_mA = shuntVoltageRaw * 0.01 / 0.1; // Assuming a 0.1 ohm shunt resistor
-// std::cout << "Current: " << current_mA << " mA\n";
-
-// 전력 읽기 (Bus 전압과 전류를 이용해 계산)
-//  float power_mW =  * 4.0 / 1000.0 * current_mA;
-//std::cout << "Power: " << power_mW << " mW\n";
-
-// }
 

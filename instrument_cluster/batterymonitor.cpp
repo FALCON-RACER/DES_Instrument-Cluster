@@ -14,12 +14,9 @@ BatteryMonitor::BatteryMonitor(const QString& i2cDevice, uint8_t address, QProgr
     , progressBar(progressBar)
     , lowBatteryVoltage(9.5)
 {
-    // QTimer 객체 생성
-    timer = new QTimer(this);
-
     updateBatteryVoltage();
 
-    // QTimer의 timeout 신호를 updateBatteryVoltage 슬롯에 연결
+    timer = new QTimer(this);
     connect(timer, &QTimer::timeout, this, &BatteryMonitor::updateBatteryVoltage);
     timer->start(60000);    // send battery data every 1 min (1000ms = 1 sec)
 }

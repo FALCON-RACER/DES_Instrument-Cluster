@@ -29,8 +29,8 @@ int main(int argc, char *argv[])
         return app.exec();
 
     } catch (const I2CException& e) {
-        std::cerr << e.what() << std::endl;
+        std::cerr << "[I2CException] " <<  e.what() << std::endl;
     } catch (const CanBusException& e) {
-        std::cerr << e.what() << std::endl;
+        std::cerr << "[CanBusException] " << e.what() << std::endl;
     }
 }
