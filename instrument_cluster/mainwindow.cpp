@@ -1,11 +1,14 @@
 #include "mainwindow.h"
 #include "ui_mainwindow.h"
 #include "canreceiver.h"
+#include "ina219.h"
 
+#include "batterymonitor.h"
 #include <QDebug>
 #include <QThread>
 #include <QVBoxLayout>
 #include <cmath>
+
 
 MainWindow::MainWindow(QWidget *parent)
     : QMainWindow(parent)
@@ -14,7 +17,7 @@ MainWindow::MainWindow(QWidget *parent)
     , emaFilter(new EmaFilter(0.25))
 {
     ui->setupUi(this);
-
+    battery = ui->battery;
 
     // Create a central widget
     QWidget *centralWidget = new QWidget(this);
@@ -33,10 +36,11 @@ MainWindow::MainWindow(QWidget *parent)
 
     // 우측에 배터리 위젯을 위한 수직 레이아웃 생성
     QVBoxLayout *rightLayout = new QVBoxLayout;
-    ui->Battery->setValue(40);
-    ui->Battery->setMaximumWidth(200);
-    ui->Battery->setAlignment(Qt::AlignTop | Qt::AlignRight);
-    rightLayout->addWidget(ui->Battery);
+    // ui->Battery->setValue(40);
+
+    ui->battery->setMaximumWidth(200);
+    ui->battery->setAlignment(Qt::AlignTop | Qt::AlignRight);
+    rightLayout->addWidget(ui->battery);
 
     // 아래쪽 빈 공간을 차지하게 하는 스페이서 추가
     rightLayout->addSpacerItem(new QSpacerItem(0, 0, QSizePolicy::Minimum, QSizePolicy::Expanding));

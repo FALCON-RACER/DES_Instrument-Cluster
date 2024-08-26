@@ -22,7 +22,7 @@ int main(int argc, char *argv[])
         QShortcut *cmdQShortcut = new QShortcut(QKeySequence("Meta+Q"), &mainWindow);
         QObject::connect(cmdQShortcut, &QShortcut::activated, &app, &QApplication::quit);
 
-        BatteryMonitor monitor("/dev/i2c-1", 0x41);
+        BatteryMonitor monitor("/dev/i2c-1", 0x41, mainWindow.battery);
 
         mainWindow.show();
         return app.exec();

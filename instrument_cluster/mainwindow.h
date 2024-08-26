@@ -5,6 +5,7 @@
 #include <QCanBusFrame>
 #include "circulargauge.h"
 #include "emafilter.h"
+#include <QProgressBar>
 
 QT_BEGIN_NAMESPACE
 namespace Ui { class MainWindow; }
@@ -16,6 +17,8 @@ class MainWindow : public QMainWindow
     Q_OBJECT
 
 public:
+    QProgressBar *battery;
+
     explicit MainWindow(QWidget *parent = nullptr);
     ~MainWindow();
 
