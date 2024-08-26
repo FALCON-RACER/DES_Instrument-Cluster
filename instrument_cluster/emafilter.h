@@ -12,4 +12,4 @@ private:
     double m_lastOutput;
 };
 
-#endif // EMAFILTER_H
+#endif

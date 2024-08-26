@@ -9,8 +9,12 @@ CANReceiver::~CANReceiver()
     disconnectFromBus();
 }
 
-// Connect to CAN Bus using specified interface name
-bool CANReceiver::connectToBus(const QString &interfaceName)
+
+/**
+ * @brief Connect to CAN Bus using specified interface name
+ *
+ * @param interfaceName
+ */
 void CANReceiver::connectToBus(const QString &interfaceName)
 {
     if (canDevice)
@@ -33,7 +37,10 @@ void CANReceiver::connectToBus(const QString &interfaceName)
     connect(canDevice, &QCanBusDevice::framesReceived, this, &CANReceiver::handleNewData);
 }
 
-// Disconnect with CAN bus device
+
+/**
+ * @brief Disconnect with CAN bus device
+ */
 void CANReceiver::disconnectFromBus()
 {
     if (canDevice)
@@ -44,7 +51,10 @@ void CANReceiver::disconnectFromBus()
     }
 }
 
-// emit signal if new CAN message arrived
+
+/**
+ * @brief Emit signal if new CAN message arrived
+ */
 void CANReceiver::handleNewData()
 {
     while (canDevice->framesAvailable())

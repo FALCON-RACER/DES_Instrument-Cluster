@@ -5,7 +5,13 @@
 #include <QCanBus>
 #include <QCanBusDevice>
 #include <QCanBusFrame>
+#include <string>
 
+/**
+ * @brief The CANReceiver class
+ *
+ * For the get Can Bus data
+ */
 class CANReceiver : public QObject
 {
     Q_OBJECT
@@ -14,7 +20,7 @@ public:
     explicit CANReceiver(QObject *parent = nullptr);
     ~CANReceiver();
 
-    bool connectToBus(const QString &interfaceName);
+    void connectToBus(const QString &interfaceName);
     void disconnectFromBus();
 
 signals:
@@ -27,4 +33,4 @@ private:
     QCanBusDevice *canDevice;
 };
 
-#endif // CANRECEIVER_H
+#endif

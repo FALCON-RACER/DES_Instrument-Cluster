@@ -4,6 +4,11 @@
 #include <exception>
 #include <string>
 
+/**
+ * @brief The I2CException class
+ *
+ * For the handling I2C error
+ */
 class I2CException : public std::exception {
 
 public:
@@ -16,4 +21,4 @@ public:
 private:
     std::string message_;
 };
-#endif // I2CEXCEPTION_H
+#endif

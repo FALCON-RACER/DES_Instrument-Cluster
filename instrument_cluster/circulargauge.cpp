@@ -5,27 +5,26 @@
 #include <QPushButton>
 #include <cmath>
 
-
 CircularGauge::CircularGauge(QWidget *parent)
     : QWidget(parent), m_value(0), m_min(0), m_max(260)
 {
-    setMinimumSize(200, 200);  // Legen Sie die Mindestgröße des Widgets fest
-
-    // Animation für die Eigenschaft „value“ erstellen
-    m_animation = new QPropertyAnimation(this, "value");
-
-    // Lockerungskurve für einen reibungslosen Übergang der Animation festlegen
-    m_animation->setEasingCurve(QEasingCurve::InOutQuad);
+    setMinimumSize(200, 200);  // Setting the minimum size of a widget
+    m_animation = new QPropertyAnimation(this, "value");    // Create animation for the “value” property
+    m_animation->setEasingCurve(QEasingCurve::InOutQuad);   // Define easing curve for a smooth transition of the animation
 }
 
+/**
+ * @brief Set the gauge's value
+ * @param value
+ */
 void CircularGauge::setValue(int value)
 {
-    // Passen Sie den Wert an, damit er nicht außerhalb des Bereichs liegt
+    // Adjust the value so that it is not outside the range
     if (value < m_min) value = m_min;
     if (value > m_max) value = m_max;
 
     m_value = value;
-    update();  // Widget neu zeichnen, wenn sich der Wert ändert
+    update();  // Redraw widget if the value changes
 }
 
 void CircularGauge::setRange(int min, int max)
@@ -36,11 +35,11 @@ void CircularGauge::setRange(int min, int max)
 
 void CircularGauge::startAnimation(int targetValue, int duration)
 {
-    m_animation->stop();  // 기존 애니메이션 중지
-    m_animation->setDuration(duration);  // 애니메이션 지속 시간 설정
-    m_animation->setStartValue(m_value);  // 현재 값에서 시작
-    m_animation->setEndValue(targetValue);  // 목표 값으로 애니메이션
-    m_animation->start();  // 애니메이션 시작
+    m_animation->stop();                    // Stop an existing animation
+    m_animation->setDuration(duration);     // Set animation duration
+    m_animation->setStartValue(m_value);    // Start at current value
+    m_animation->setEndValue(targetValue);  // Animating to a Target Value
+    m_animation->start();                   // Start animation
 }
 
 void CircularGauge::paintEvent(QPaintEvent *event)

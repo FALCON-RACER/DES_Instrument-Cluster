@@ -6,7 +6,6 @@
 #include <unistd.h>
 #include <sys/ioctl.h>
 #include <linux/i2c-dev.h>
-#include "i2cexception.h"
 
 extern "C" {
 #include <i2c/smbus.h>
@@ -39,4 +38,4 @@ public:
     float getBatteryVoltage();
 };
 
-#endif // INA219_H
+#endif

@@ -4,6 +4,11 @@
 #include <QWidget>
 #include <QPropertyAnimation>
 
+/**
+ * @brief The CircularGauge class
+ *
+ * For the drawing speed meter
+ */
 class CircularGauge : public QWidget
 {
     Q_OBJECT
@@ -28,4 +33,4 @@ private:
     QPropertyAnimation *m_animation;  // Animation for smooth value transition
 };
 
-#endif // CIRCULARGAUGE_H
+#endif
