@@ -78,7 +78,7 @@ void INA219::setConfiguration() {
 float INA219::getBusVoltage() {
 
     uint16_t busVoltageRaw = readRegister(0x02);
-    float busVoltage = ((busVoltageRaw>>3) * 4) / 1000;
+    float busVoltage = ((busVoltageRaw>>3) * 4.0) / 1000.0;
 
     return busVoltage;
 }
