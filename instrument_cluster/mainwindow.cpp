@@ -21,7 +21,7 @@ MainWindow::MainWindow(QWidget *parent)
 
     setWidgets();
     setScreenOptions();
-    setCanBus();
+    setCanBus("can0");
 }
 
 MainWindow::~MainWindow()
@@ -83,7 +83,7 @@ void MainWindow::setScreenOptions() {
     showFullScreen();
 }
 
-void MainWindow::setCanBus() {
+void MainWindow::setCanBus(const QString &interfaceName) {
 
     // Start CANReceiver another thread
     QThread *canThread = new QThread;
@@ -96,8 +96,8 @@ void MainWindow::setCanBus() {
 
 
     // Connect to the CAN bus when the thread is started
-    QObject::connect(canThread, &QThread::started, canReceiver, [canReceiver]() {
-        canReceiver->connectToBus("can0");
+    QObject::connect(canThread, &QThread::started, canReceiver, [canReceiver, interfaceName]() {
+        canReceiver->connectToBus(interfaceName);
     });
 
 

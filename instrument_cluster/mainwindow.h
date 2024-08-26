@@ -34,7 +34,7 @@ private:
 
     void setWidgets();
     void setScreenOptions();
-    void setCanBus();
+    void setCanBus(const QString &interfaceName);
 };
 
 #endif
