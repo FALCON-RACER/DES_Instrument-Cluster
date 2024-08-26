@@ -1,4 +1,5 @@
 #include "canreceiver.h"
+#include "canbusexception.h"
 #include <QDebug>
 
 CANReceiver::CANReceiver(QObject *parent) : QObject(parent), canDevice(nullptr) {}
@@ -10,35 +11,26 @@ CANReceiver::~CANReceiver()
 
 // Connect to CAN Bus using specified interface name
 bool CANReceiver::connectToBus(const QString &interfaceName)
+void CANReceiver::connectToBus(const QString &interfaceName)
 {
     if (canDevice)
-    {
-        qDebug() << "Already connected to CAN bus.";
-        return false;
-    }
+        throw CanBusException("Already connected to CAN bus. " + canDevice->errorString().toStdString());
 
     canDevice = QCanBus::instance()->createDevice("socketcan", interfaceName);
     if (!canDevice)
-    {
-        qDebug() << "Failed to create CAN device for interface:" << interfaceName;
-        return false;
-    }
+        throw CanBusException("Failed to create CAN device for interface:" + interfaceName.toStdString()
+                                  + "\n" + canDevice->errorString().toStdString());
 
     if (!canDevice->connectDevice())
     {
-        qDebug() << "Failed to connect to CAN device.";
         delete canDevice;
         canDevice = nullptr;
-        return false;
+        throw CanBusException("Failed to connect to CAN device. " + canDevice->errorString().toStdString());
     }
 
     qDebug() << "canDevice->busStatus : " << canDevice->busStatus();
-    qDebug() << "Frames available: " << canDevice->framesAvailable();
-    qDebug() << "CAN device error: " << canDevice->errorString();
 
     connect(canDevice, &QCanBusDevice::framesReceived, this, &CANReceiver::handleNewData);
-
-    return true;
 }
 
 // Disconnect with CAN bus device

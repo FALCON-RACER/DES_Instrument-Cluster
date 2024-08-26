@@ -1,6 +1,6 @@
 #include "mainwindow.h"
 #include "i2cexception.h"
-
+#include "canbusexception.h"
 #include "batterymonitor.h"
 #include <QApplication>
 #include <QShortcut>
@@ -25,9 +25,12 @@ int main(int argc, char *argv[])
         BatteryMonitor monitor("/dev/i2c-1", 0x41, mainWindow.battery);
 
         mainWindow.show();
+
         return app.exec();
 
     } catch (const I2CException& e) {
+        std::cerr << e.what() << std::endl;
+    } catch (const CanBusException& e) {
         std::cerr << e.what() << std::endl;
     }
 }
