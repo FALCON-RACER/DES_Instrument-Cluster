@@ -23,6 +23,7 @@ set(PROJECT_SOURCES
         i2cexception.h
         batterymonitor.h
         batterymonitor.cpp
+        canbusexception.h
 )
 if(${QT_VERSION_MAJOR} GREATER_EQUAL 6)
     qt_add_executable(InstrumentCluster
@@ -34,6 +35,7 @@ if(${QT_VERSION_MAJOR} GREATER_EQUAL 6)
         ina219.h ina219.cpp
         i2cexception.h
         batterymonitor.h batterymonitor.cpp
+        canbusexception.h
     )
 # Define target properties for Android with Qt 6 as:
 #    set_property(TARGET InstrumentCluster APPEND PROPERTY QT_ANDROID_PACKAGE_SOURCE_DIR

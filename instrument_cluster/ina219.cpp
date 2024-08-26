@@ -1,5 +1,6 @@
 #include "ina219.h"
 #include <QDebug>
+#include "i2cexception.h"
 
 INA219::INA219(const char *filename, int address) : _address(address)  {
 
