@@ -7,11 +7,11 @@ INA219::INA219(const char *filename, int address) : _address(address)  {
     //const char *filename = "/dev/i2c-1";
     //int addr = 0x41; // INA219 I2C address
 
-    // I2C 버스 열기
+    // open the I2C Bus
     if ((_file = open(filename, O_RDWR)) < 0)
         throw I2CException("Failed to open the i2c bus");
 
-    // I2C 슬레이브 주소 설정
+    // set the I2C slave's address
     if (ioctl(_file, I2C_SLAVE, address) < 0)
         throw I2CException("Failed to acquire bus access and/or talk to slave");
 
@@ -27,14 +27,14 @@ uint16_t INA219::readRegister(uint8_t registerNumber) {
     buf[0] = registerNumber;
 
 
-    // 레지스터 주소를 장치에 쓰기
+    // write the register address in the advice
     if (write(_file, buf, 1) != 1) {
         std::cerr << "Failed to write to the i2c bus" << std::endl;
         return 0;
     }
 
 
-    // 장치에서 2바이트 데이터 읽기
+    // read the 2 byte data on the device
     if (read(_file, buf, 2) != 2) {
         std::cerr << "Failed to read from the i2c bus" << std::endl;
         return 0;

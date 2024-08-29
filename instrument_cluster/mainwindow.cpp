@@ -13,7 +13,7 @@
 MainWindow::MainWindow(QWidget *parent)
     : QMainWindow(parent)
     , ui(new Ui::MainWindow)
-    , gauge(new CircularGauge(this))  // CircularGauge 초기화
+    , gauge(new CircularGauge(this))
     , emaFilter(new EmaFilter(0.25))
 {
     ui->setupUi(this);
@@ -61,19 +61,19 @@ void MainWindow::setWidgets() {
 
     QHBoxLayout *layout = new QHBoxLayout(centralWidget);
 
-    layout->addWidget(gauge);  // 중앙에 게이지 추가
+    layout->addWidget(gauge);  // add the gauge in the middle
 
-    // 우측에 배터리 위젯을 위한 수직 레이아웃 생성
+    // Create a vertical layout for the battery widget
     QVBoxLayout *rightLayout = new QVBoxLayout;
 
     ui->battery->setMaximumWidth(200);
     ui->battery->setAlignment(Qt::AlignTop | Qt::AlignRight);
     rightLayout->addWidget(ui->battery);
 
-    // 아래쪽 빈 공간을 차지하게 하는 스페이서 추가
+    // Add a spacer to take up the empty space at the bottom
     rightLayout->addSpacerItem(new QSpacerItem(0, 0, QSizePolicy::Minimum, QSizePolicy::Expanding));
 
-    // 수직 레이아웃을 수평 레이아웃에 추가
+    // Adding a vertical layout to a horizontal layout
     layout->addLayout(rightLayout);
 }
 
