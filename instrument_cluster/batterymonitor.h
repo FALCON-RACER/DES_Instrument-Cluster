@@ -24,4 +24,4 @@ private:
 };
 
 
-#endif // BATTERYMONITOR_H
+#endif
