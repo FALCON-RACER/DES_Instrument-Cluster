@@ -31,7 +31,7 @@ BatteryMonitor::~BatteryMonitor() {
  *
  * It turns off when the bus voltage is 8.4V
  * We set the low voltage 9.5V
- * Full charge :
+ * Full charge : 12.45
  *
  *
  * 12.4 - 9.5 = 2.9 = 100%
