@@ -86,7 +86,7 @@ void CircularGauge::printSpeed(QPainter &painter, QRectF &rect) {
 
     painter.setPen(Qt::white);
     painter.setFont(QFont("Arial", 20));
-    painter.drawText(rect, Qt::AlignCenter, QString::number(m_value) + " cm/s");  // 중앙에 텍스트 표시
+    painter.drawText(rect, Qt::AlignCenter, QString::number(m_value) + " cm/s");
 }
 
 void CircularGauge::drawBigScaleAndNumber(QPainter &painter, int radius){
@@ -123,7 +123,7 @@ void CircularGauge::drawSmallScale(QPainter &painter, int radius) {
 
     int startAngle = 240 * 15;
     int numTicks = (m_max - m_min) / 10 + 1;    // number of scale
-    double angleStep = 243.5 / (numTicks - 1);  // 작은 눈금 간격 각도 계산
+    double angleStep = 243.5 / (numTicks - 1);  // calculate the small scale's angle
 
     for (int i = 0; i < numTicks; ++i) {
         int angle = startAngle / 16 + i * angleStep;
