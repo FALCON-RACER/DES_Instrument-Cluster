@@ -61,8 +61,8 @@ void CircularGauge::paintEvent(QPaintEvent *event)
 
     drawSpeedGuage(painter, rect);
     printSpeed(painter, rect);
-    drawBigAngleAndNumber(painter, radius);
-    drawSmallAngle(painter, radius);
+    drawBigScaleAndNumber(painter, radius);
+    drawSmallScale(painter, radius);
 
 }
 
@@ -122,7 +122,7 @@ void CircularGauge::drawSmallScale(QPainter &painter, int radius) {
     painter.setPen(QPen(Qt::white, 2));
 
     int startAngle = 240 * 15;
-    int numTicks = (m_max - m_min) / 10 + 1;  // number of scale
+    int numTicks = (m_max - m_min) / 10 + 1;    // number of scale
     double angleStep = 243.5 / (numTicks - 1);  // 작은 눈금 간격 각도 계산
 
     for (int i = 0; i < numTicks; ++i) {
