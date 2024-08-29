@@ -70,7 +70,9 @@ Qt Application:
 - **Dashboard UI**: Visualizes the received speed and battery data in real-time.
 - **Data Communication**: Receives CAN and I2C data from the Raspberry Pi and processes it.
 <br>
+
 ---
+
 
 ## Installation and Usage
 
