@@ -2,7 +2,7 @@
 #include "canbusexception.h"
 #include <QDebug>
 
-CANReceiver::CANReceiver(QObject *parent) : QObject(parent), canDevice(nullptr) {}
+CANReceiver::CANReceiver(QObject *parent, const QString interfaceName) : QObject(parent), canDevice(nullptr), interfaceName(interfaceName)  {}
 
 CANReceiver::~CANReceiver()
 {
@@ -15,7 +15,7 @@ CANReceiver::~CANReceiver()
  *
  * @param interfaceName
  */
-void CANReceiver::connectToBus(const QString &interfaceName)
+void CANReceiver::connectToBus()
 {
     if (canDevice)
         throw CanBusException("Already connected to CAN bus. " + canDevice->errorString().toStdString());

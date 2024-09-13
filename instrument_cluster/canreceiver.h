@@ -12,15 +12,18 @@
  *
  * For the get Can Bus data
  */
+
+#define INTERFACE_NAME "can0"
+
 class CANReceiver : public QObject
 {
     Q_OBJECT
 
 public:
-    explicit CANReceiver(QObject *parent = nullptr);
+    explicit CANReceiver(QObject *parent = nullptr, const QString interfaceName = INTERFACE_NAME);
     ~CANReceiver();
 
-    void connectToBus(const QString &interfaceName);
+    void connectToBus();
     void disconnectFromBus();
 
 signals:
@@ -30,6 +33,7 @@ private slots:
     void handleNewData();
 
 private:
+    const QString interfaceName;
     QCanBusDevice *canDevice;
 };
 

@@ -1,11 +1,5 @@
 #include "mainwindow.h"
 #include "ui_mainwindow.h"
-#include "canreceiver.h"
-#include "ina219.h"
-
-#include "batterymonitor.h"
-#include <QDebug>
-#include <QThread>
 #include <QVBoxLayout>
 #include <cmath>
 
@@ -21,7 +15,6 @@ MainWindow::MainWindow(QWidget *parent)
 
     setWidgets();
     setScreenOptions();
-    setCanBus("can0");
 }
 
 MainWindow::~MainWindow()
@@ -83,27 +76,3 @@ void MainWindow::setScreenOptions() {
     showFullScreen();
 }
 
-void MainWindow::setCanBus(const QString &interfaceName) {
-
-    // Start CANReceiver another thread
-    QThread *canThread = new QThread;
-    CANReceiver *canReceiver = new CANReceiver(this);
-
-    canReceiver->moveToThread(canThread);
-
-    // Connect CANReceiver's signal and function
-    QObject::connect(canReceiver, &CANReceiver::newMessageReceived, this, &MainWindow::updateAnimation);
-
-
-    // Connect to the CAN bus when the thread is started
-    QObject::connect(canThread, &QThread::started, canReceiver, [canReceiver, interfaceName]() {
-        canReceiver->connectToBus(interfaceName);
-    });
-
-
-    // Delete CANReceiver object when thread end
-    QObject::connect(canThread, &QThread::finished, canReceiver, &QObject::deleteLater);
-    QObject::connect(canThread, &QThread::finished, canThread, &QObject::deleteLater);
-
-    canThread->start();
-}
