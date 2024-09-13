@@ -15,13 +15,12 @@ int main(int argc, char *argv[])
         QApplication app(argc, argv);
         MainWindow mainWindow;
 
-        // exit shortcut (Ctrl + Q)
-        QShortcut *ctrlQShortcut = new QShortcut(QKeySequence("Ctrl+Q"), &mainWindow);
-        QObject::connect(ctrlQShortcut, &QShortcut::activated, &app, &QApplication::quit);
+        std::unique_ptr<QShortcut> ctrlQShortcut = std::make_unique<QShortcut>(QKeySequence("Ctrl+Q"), &mainWindow);
+        std::unique_ptr<QShortcut> cmdQShortcut = std::make_unique<QShortcut>(QKeySequence("Meta+Q"), &mainWindow);
 
-        // exit shortcut (Command + Q for macOS)
-        QShortcut *cmdQShortcut = new QShortcut(QKeySequence("Meta+Q"), &mainWindow);
-        QObject::connect(cmdQShortcut, &QShortcut::activated, &app, &QApplication::quit);
+        QObject::connect(ctrlQShortcut.get(), &QShortcut::activated, &app, &QApplication::quit);
+        QObject::connect(cmdQShortcut.get(), &QShortcut::activated, &app, &QApplication::quit);
+
 
         BatteryMonitor monitor("/dev/i2c-1", 0x41, mainWindow.battery);
 
