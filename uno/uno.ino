@@ -39,7 +39,7 @@ void loop() {
 
     pulseCount = 0;
     memcpy(data, &rpm, sizeof(rpm));
-    CAN.sendMsgBuf(0x7, 0, 8, data); // Send the data on the CAN bus
+    CAN.sendMsgBuf(0x7, 0, 4, data); // Send the data on the CAN bus
 
     SERIAL_PORT_MONITOR.println("CAN BUS sendMsgBuf ok!"); // Print a success message
   }
