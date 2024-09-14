@@ -3,7 +3,7 @@
 #include <QDebug>
 #include <QVariant>
 
-CANReceiver::CANReceiver(QObject *parent, const QString interfaceName) : QObject(parent), canDevice(nullptr), interfaceName(interfaceName)  {}
+CANReceiver::CANReceiver(const QString interfaceName, QObject *parent) : QObject(parent), canDevice(nullptr), interfaceName(interfaceName)  {}
 
 CANReceiver::~CANReceiver()
 {

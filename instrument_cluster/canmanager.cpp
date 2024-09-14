@@ -2,10 +2,10 @@
 #include <QThread>
 #include <QDebug>
 
-CANManager::CANManager(QObject *parent) : QObject(parent) {
+CANManager::CANManager(const QString &interfaceName, QObject *parent) : interfaceName(interfaceName), QObject(parent) {
 
     canThread = new QThread(this);
-    canReceiver = new CANReceiver();
+    canReceiver = new CANReceiver(interfaceName);
 
     canReceiver->moveToThread(canThread);
 

@@ -10,7 +10,7 @@ class CANManager : public QObject
     Q_OBJECT
 
 public:
-    CANManager(QObject *parent = nullptr);
+    CANManager(const QString &interfaceName, QObject *parent = nullptr);
     ~CANManager();
     void start();
 
@@ -21,8 +21,11 @@ public slots:
     void handleNewMessage(const QCanBusFrame &frame);
 
 private:
+    const QString interfaceName;
     QThread *canThread;
     CANReceiver *canReceiver;
+
+    void activateCanInterface();
 };
 
 #endif

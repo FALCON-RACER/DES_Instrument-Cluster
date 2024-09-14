@@ -8,6 +8,8 @@
 #include <QKeySequence>
 #include <iostream>
 
+#define INTERFACE_NAME "can0"
+
 int main(int argc, char *argv[])
 {
     try {
@@ -26,7 +28,7 @@ int main(int argc, char *argv[])
 
         // set CAN BUS
         qRegisterMetaType<QCanBusFrame>("QCanBusFrame");
-        std::unique_ptr<CANManager> canManager = std::make_unique<CANManager>();
+        std::unique_ptr<CANManager> canManager = std::make_unique<CANManager>(INTERFACE_NAME);
         canManager->start();
 
         QObject::connect(canManager.get(), &CANManager::newMessageReceived, &mainWindow, &MainWindow::updateAnimation, Qt::QueuedConnection);

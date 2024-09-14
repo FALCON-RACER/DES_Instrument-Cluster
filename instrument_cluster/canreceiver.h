@@ -13,14 +13,12 @@
  * For the get Can Bus data
  */
 
-#define INTERFACE_NAME "can0"
-
 class CANReceiver : public QObject
 {
     Q_OBJECT
 
 public:
-    explicit CANReceiver(QObject *parent = nullptr, const QString interfaceName = INTERFACE_NAME);
+    explicit CANReceiver(const QString interfaceName, QObject *parent = nullptr);
     ~CANReceiver();
 
     void connectToBus();
