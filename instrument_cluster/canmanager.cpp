@@ -1,8 +1,14 @@
 #include "canmanager.h"
 #include <QThread>
 #include <QDebug>
+#include <QCoreApplication>
+#include <QProcess>
+#include "canbusexception.h"
+
 
 CANManager::CANManager(const QString &interfaceName, QObject *parent) : interfaceName(interfaceName), QObject(parent) {
+
+    activateCanInterface();
 
     canThread = new QThread(this);
     canReceiver = new CANReceiver(interfaceName);
@@ -43,4 +49,34 @@ void CANManager::start() {
 void CANManager::handleNewMessage(const QCanBusFrame &frame) {
 
     emit newMessageReceived(frame);
+}
+
+void CANManager::activateCanInterface() {
+    QProcess process;
+    QString command = QString("ip link show %1").arg(interfaceName);
+
+    // 인터페이스 상태 확인
+    process.start(command);
+    process.waitForFinished();
+    QString output = process.readAllStandardOutput();
+    QString error = process.readAllStandardError();
+
+    if (error.isEmpty() && output.contains("state UP")) {
+        qDebug() << "CAN interface" << interfaceName << "is already up.";
+        return;
+    }
+
+    // 인터페이스가 비활성화된 경우, 활성화 명령어 실행
+    command = QString("sudo ip link set %1 up type can bitrate 500000").arg(interfaceName);
+    process.start(command);
+    process.waitForFinished();
+
+    // 명령어 출력 확인
+    output = process.readAllStandardOutput();
+    error = process.readAllStandardError();
+
+    if (!error.isEmpty())
+        throw CanBusException("Error activating CAN interface:") ;
+    else
+        qDebug() << "CAN interface activated successfully ! " << output;
 }
