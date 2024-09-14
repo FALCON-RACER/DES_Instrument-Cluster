@@ -16,6 +16,7 @@ class CircularGauge : public QWidget
 
 public:
     explicit CircularGauge(QWidget *parent = nullptr);
+    ~CircularGauge();
 
     int value() const { return m_value; }
     void setValue(int value);                // Set the gauge's value

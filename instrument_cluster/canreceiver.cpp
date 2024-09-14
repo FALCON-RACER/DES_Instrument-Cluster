@@ -1,8 +1,9 @@
 #include "canreceiver.h"
 #include "canbusexception.h"
 #include <QDebug>
+#include <QVariant>
 
-CANReceiver::CANReceiver(QObject *parent) : QObject(parent), canDevice(nullptr) {}
+CANReceiver::CANReceiver(const QString interfaceName, QObject *parent) : QObject(parent), canDevice(nullptr), interfaceName(interfaceName)  {}
 
 CANReceiver::~CANReceiver()
 {
@@ -15,7 +16,7 @@ CANReceiver::~CANReceiver()
  *
  * @param interfaceName
  */
-void CANReceiver::connectToBus(const QString &interfaceName)
+void CANReceiver::connectToBus()
 {
     if (canDevice)
         throw CanBusException("Already connected to CAN bus. " + canDevice->errorString().toStdString());
@@ -26,12 +27,9 @@ void CANReceiver::connectToBus(const QString &interfaceName)
         throw CanBusException("Failed to create CAN device for interface:" + interfaceName.toStdString()
                                   + "\n" + canDevice->errorString().toStdString());
 
+    canDevice->setConfigurationParameter(QCanBusDevice::BitRateKey, QVariant());
     if (!canDevice->connectDevice())
-    {
-        delete canDevice;
-        canDevice = nullptr;
         throw CanBusException("Failed to connect to CAN device. " + canDevice->errorString().toStdString());
-    }
 
     qDebug() << "canDevice->busStatus : " << canDevice->busStatus();
 
