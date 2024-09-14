@@ -22,7 +22,18 @@ BatteryMonitor::BatteryMonitor(const QString& i2cDevice, uint8_t address, QProgr
 }
 
 BatteryMonitor::~BatteryMonitor() {
-    delete ina219;
+    if (ina219) {
+        delete ina219;
+        ina219 = nullptr;
+    }
+    if (timer) {
+        delete timer;
+        timer = nullptr;
+    }
+    if (progressBar) {
+        delete progressBar;
+        progressBar = nullptr;
+    }
 }
 
 

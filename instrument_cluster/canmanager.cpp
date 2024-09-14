@@ -23,6 +23,15 @@ CANManager::~CANManager() {
         canThread->quit();
         canThread->wait();
     }
+
+    if (canThread) {
+        delete canThread;
+        canThread = nullptr;
+    }
+    if (canReceiver) {
+        delete canReceiver;
+        canReceiver = nullptr;
+    }
 }
 
 void CANManager::start() {

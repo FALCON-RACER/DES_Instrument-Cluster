@@ -13,6 +13,13 @@ CircularGauge::CircularGauge(QWidget *parent)
     m_animation->setEasingCurve(QEasingCurve::InOutQuad);   // Define easing curve for a smooth transition of the animation
 }
 
+CircularGauge::~CircularGauge() {
+    if (m_animation) {
+        delete m_animation;
+        m_animation = nullptr;
+    }
+}
+
 /**
  * @brief Set the gauge's value
  * @param value

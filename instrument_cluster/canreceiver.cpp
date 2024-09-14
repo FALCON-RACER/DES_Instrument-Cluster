@@ -27,11 +27,7 @@ void CANReceiver::connectToBus()
                                   + "\n" + canDevice->errorString().toStdString());
 
     if (!canDevice->connectDevice())
-    {
-        delete canDevice;
-        canDevice = nullptr;
         throw CanBusException("Failed to connect to CAN device. " + canDevice->errorString().toStdString());
-    }
 
     qDebug() << "canDevice->busStatus : " << canDevice->busStatus();
 

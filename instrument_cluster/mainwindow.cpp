@@ -19,7 +19,22 @@ MainWindow::MainWindow(QWidget *parent)
 
 MainWindow::~MainWindow()
 {
-    delete ui;
+    if (ui) {
+        delete ui;
+        ui = nullptr;
+    }
+    if (gauge) {
+        delete gauge;
+        gauge = nullptr;
+    }
+    if (emaFilter) {
+        delete emaFilter;
+        emaFilter = nullptr;
+    }
+    if (battery) {
+        delete battery;
+        battery = nullptr;
+    }
 }
 
 void MainWindow::updateAnimation(const QCanBusFrame &frame)
