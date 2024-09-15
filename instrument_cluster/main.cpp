@@ -36,14 +36,24 @@ int main(int argc, char *argv[]) {
         });
 
 
+        // Start battery monitoring
         BatteryMonitor monitor("/dev/i2c-1", 0x41, mainWindow.battery);
 
-        // set CAN BUS
+
+        // Set the CAN BUS
         qRegisterMetaType<QCanBusFrame>("QCanBusFrame");
-        std::unique_ptr<CANManager> canManager = std::make_unique<CANManager>(INTERFACE_NAME);
-        canManager->start();
+        CANManager canManager(INTERFACE_NAME);
+        canManager.start();
 
         QObject::connect(&canManager, &CANManager::newMessageReceived, &mainWindow, &MainWindow::updateSpeedAnimation, Qt::QueuedConnection);
+
+
+        // Set the short cut
+        QShortcut ctrlQShortcut(QKeySequence("Ctrl+Q"), &mainWindow);
+        QShortcut cmdQShortcut(QKeySequence("Meta+Q"), &mainWindow);
+
+        QObject::connect(&ctrlQShortcut, &QShortcut::activated, &app, &QApplication::quit);
+        QObject::connect(&cmdQShortcut, &QShortcut::activated, &app, &QApplication::quit);
 
 
         mainWindow.show();
