@@ -35,7 +35,7 @@ CANManager::~CANManager() {
         canThread = nullptr;
     }
     if (canReceiver) {
-        delete canReceiver;
+    deactivateCanInterface();
         canReceiver = nullptr;
     }
 }
@@ -79,4 +79,16 @@ void CANManager::activateCanInterface() {
         throw CanBusException("Error activating CAN interface:") ;
     else
         qDebug() << "CAN interface activated successfully ! " << output;
+}
+
+void CANManager::deactivateCanInterface() {
+
+    QProcess process;
+    QString command = QString("sudo ip link set %1 down").arg(interfaceName);
+
+    process.start(command);
+    if (!process.waitForFinished())
+        qWarning() << "Failed to execute command:" << process.errorString();
+    else
+        qDebug() << interfaceName << "interface closed";
 }
