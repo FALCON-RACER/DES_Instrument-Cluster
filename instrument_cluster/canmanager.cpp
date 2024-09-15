@@ -34,10 +34,8 @@ CANManager::~CANManager() {
         delete canThread;
         canThread = nullptr;
     }
-    if (canReceiver) {
+
     deactivateCanInterface();
-        canReceiver = nullptr;
-    }
 }
 
 void CANManager::start() {
@@ -57,7 +55,9 @@ void CANManager::activateCanInterface() {
 
     // 인터페이스 상태 확인
     process.start(command);
-    process.waitForFinished();
+    if (!process.waitForFinished())
+        qWarning() << "Failed to execute command:" << process.errorString();
+
     QString output = process.readAllStandardOutput();
     QString error = process.readAllStandardError();
 
@@ -69,7 +69,8 @@ void CANManager::activateCanInterface() {
     // 인터페이스가 비활성화된 경우, 활성화 명령어 실행
     command = QString("sudo ip link set %1 up type can bitrate 500000").arg(interfaceName);
     process.start(command);
-    process.waitForFinished();
+    if (!process.waitForFinished())
+        qWarning() << "Failed to execute command:" << process.errorString();
 
     // 명령어 출력 확인
     output = process.readAllStandardOutput();

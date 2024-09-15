@@ -31,10 +31,6 @@ MainWindow::~MainWindow()
         delete emaFilter;
         emaFilter = nullptr;
     }
-    if (battery) {
-        delete battery;
-        battery = nullptr;
-    }
 }
 
 void MainWindow::updateSpeedAnimation(const QCanBusFrame &frame)
