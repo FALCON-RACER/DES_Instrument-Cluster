@@ -31,13 +31,9 @@ MainWindow::~MainWindow()
         delete emaFilter;
         emaFilter = nullptr;
     }
-    if (battery) {
-        delete battery;
-        battery = nullptr;
-    }
 }
 
-void MainWindow::updateAnimation(const QCanBusFrame &frame)
+void MainWindow::updateSpeedAnimation(const QCanBusFrame &frame)
 {
     float rpm;
     memcpy(&rpm, frame.payload(), sizeof(rpm));

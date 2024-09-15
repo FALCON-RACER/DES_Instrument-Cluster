@@ -25,7 +25,7 @@ public:
     double calculateSpeed(double rpm);
 
 public slots:
-    void updateAnimation(const QCanBusFrame &frame);
+    void updateSpeedAnimation(const QCanBusFrame &frame);
 
 private:
     Ui::MainWindow *ui;
