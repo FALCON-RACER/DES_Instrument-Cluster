@@ -26,6 +26,7 @@ private:
     CANReceiver *canReceiver;
 
     void activateCanInterface();
+    void deactivateCanInterface();
 };
 
 #endif
