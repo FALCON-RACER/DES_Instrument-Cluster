@@ -31,7 +31,7 @@ int main(int argc, char *argv[])
         std::unique_ptr<CANManager> canManager = std::make_unique<CANManager>(INTERFACE_NAME);
         canManager->start();
 
-        QObject::connect(canManager.get(), &CANManager::newMessageReceived, &mainWindow, &MainWindow::updateAnimation, Qt::QueuedConnection);
+        QObject::connect(&canManager, &CANManager::newMessageReceived, &mainWindow, &MainWindow::updateSpeedAnimation, Qt::QueuedConnection);
 
 
         mainWindow.show();
