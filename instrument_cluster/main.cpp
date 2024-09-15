@@ -7,21 +7,33 @@
 #include <QShortcut>
 #include <QKeySequence>
 #include <iostream>
+#include <QCoreApplication>
+#include <QProcess>
+#include <QTextStream>
+#include <QDebug>
 
 #define INTERFACE_NAME "can0"
+#define PYTHON_PATH "/home/falcon/piracer_test/venv/bin/python"
+#define SCRIPT_PATH "/home/falcon/piracer_test/piracer_py/examples/shanwan_gamepad_control.py"
 
-int main(int argc, char *argv[])
-{
+
+int main(int argc, char *argv[]) {
     try {
-
         QApplication app(argc, argv);
         MainWindow mainWindow;
 
-        std::unique_ptr<QShortcut> ctrlQShortcut = std::make_unique<QShortcut>(QKeySequence("Ctrl+Q"), &mainWindow);
-        std::unique_ptr<QShortcut> cmdQShortcut = std::make_unique<QShortcut>(QKeySequence("Meta+Q"), &mainWindow);
 
-        QObject::connect(ctrlQShortcut.get(), &QShortcut::activated, &app, &QApplication::quit);
-        QObject::connect(cmdQShortcut.get(), &QShortcut::activated, &app, &QApplication::quit);
+        // Start and execute the Python script using QProcess
+        QProcess process(&app);
+        process.start(PYTHON_PATH, QStringList() << SCRIPT_PATH);
+        QObject::connect(&app, &QApplication::aboutToQuit, [&process]() {
+            if (process.state() == QProcess::Running) {
+                process.terminate();
+                if (!process.waitForFinished(3000)) {
+                    process.kill();
+                }
+            }
+        });
 
 
         BatteryMonitor monitor("/dev/i2c-1", 0x41, mainWindow.battery);
