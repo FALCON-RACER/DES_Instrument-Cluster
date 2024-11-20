@@ -26,7 +26,7 @@ void CANReceiver::connectToBus()
 
     if (!canDevice) {
     //    throw CanBusException("Failed to create CAN device for interface:" + interfaceName.toStdString()
-                                  + "\n" + canDevice->errorString().toStdString());
+    //                              + "\n" + canDevice->errorString().toStdString());
 	}
 
     canDevice->setConfigurationParameter(QCanBusDevice::BitRateKey, QVariant());
