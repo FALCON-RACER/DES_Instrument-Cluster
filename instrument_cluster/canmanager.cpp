@@ -76,8 +76,9 @@ void CANManager::activateCanInterface() {
     output = process.readAllStandardOutput();
     error = process.readAllStandardError();
 
-    if (!error.isEmpty())
-        throw CanBusException("Error activating CAN interface:") ;
+    if (!error.isEmpty()) {
+    //    throw CanBusException("Error activating CAN interface:") ;
+	}
     else
         qDebug() << "CAN interface activated successfully ! " << output;
 }

@@ -18,18 +18,21 @@ CANReceiver::~CANReceiver()
  */
 void CANReceiver::connectToBus()
 {
-    if (canDevice)
-        throw CanBusException("Already connected to CAN bus. " + canDevice->errorString().toStdString());
+    if (canDevice) {
+    //    throw CanBusException("Already connected to CAN bus. " + canDevice->errorString().toStdString());
+	}
 
     canDevice = QCanBus::instance()->createDevice("socketcan", interfaceName);
 
-    if (!canDevice)
-        throw CanBusException("Failed to create CAN device for interface:" + interfaceName.toStdString()
+    if (!canDevice) {
+    //    throw CanBusException("Failed to create CAN device for interface:" + interfaceName.toStdString()
                                   + "\n" + canDevice->errorString().toStdString());
+	}
 
     canDevice->setConfigurationParameter(QCanBusDevice::BitRateKey, QVariant());
-    if (!canDevice->connectDevice())
-        throw CanBusException("Failed to connect to CAN device. " + canDevice->errorString().toStdString());
+    if (!canDevice->connectDevice()) {
+    //    throw CanBusException("Failed to connect to CAN device. " + canDevice->errorString().toStdString());
+	}
 
     qDebug() << "canDevice->busStatus : " << canDevice->busStatus();
 

@@ -8,12 +8,14 @@ INA219::INA219(const char *filename, int address) : _address(address)  {
     //int addr = 0x41; // INA219 I2C address
 
     // open the I2C Bus
-    if ((_file = open(filename, O_RDWR)) < 0)
-        throw I2CException("Failed to open the i2c bus");
+    if ((_file = open(filename, O_RDWR)) < 0) {
+        //throw I2CException("Failed to open the i2c bus");
+	}
 
     // set the I2C slave's address
-    if (ioctl(_file, I2C_SLAVE, address) < 0)
-        throw I2CException("Failed to acquire bus access and/or talk to slave");
+    if (ioctl(_file, I2C_SLAVE, address) < 0) {
+        //throw I2CException("Failed to acquire bus access and/or talk to slave");
+	}
 
     setCalibration();
     setConfiguration();
@@ -53,7 +55,7 @@ void INA219::writeRegister(uint8_t registerNumber, uint16_t value)
 
     if(write(_file, buf, 3) != 3){
         close(_file);
-        throw I2CException("register write err");
+        // throw I2CException("register write err");
     }
 
 }
